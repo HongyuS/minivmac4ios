@@ -980,7 +980,7 @@ LOCALFUNC tMacErr Sony_Mount(CPTR p)
 				/* Drive i has no errors */
 		} else
 #else
-		if ((L == 800)
+            if (L == 800
 #if CurEmMd > kEmMd_128K
 			|| (L == 1600)
 #endif

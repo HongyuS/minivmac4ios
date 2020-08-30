@@ -82,10 +82,10 @@
     NSArray *allFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:basePath error:NULL];
     diskImages = [allFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject: pathExtension.lowercaseString", [AppDelegate sharedInstance].diskImageExtensions]];
     otherFiles = [allFiles filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString* _Nonnull name, NSDictionary<NSString *,id> * _Nullable bindings) {
-        BOOL isDiskImage = [diskImages containsObject:name];
+        BOOL isDiskImage = [self->diskImages containsObject:name];
         BOOL isDirectory;
         BOOL isHidden = [name hasPrefix:@"."];
-        [[NSFileManager defaultManager] fileExistsAtPath:[basePath stringByAppendingPathComponent:name] isDirectory:&isDirectory];
+        [[NSFileManager defaultManager] fileExistsAtPath:[self->basePath stringByAppendingPathComponent:name] isDirectory:&isDirectory];
         return !(isDirectory || isDiskImage || isHidden);
     }]];
 }
@@ -275,7 +275,7 @@
     if ([UIAlertController class]) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:fileName message:NSLocalizedString(@"Enter new name", nil) preferredStyle:UIAlertControllerStyleAlert];
         [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            nameTextField = textField;
+            self->nameTextField = textField;
             textField.delegate = self;
             textField.placeholder = fileName;
             textField.text = fileName;
@@ -334,7 +334,7 @@
         UIAlertAction *createAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Create", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             NSString *name = [self _newDiskImageName];
             off_t size = [self _newDiskImageSize];
-            createDiskImageController = nil;
+            self->createDiskImageController = nil;
             [self createDiskImageWithName:name size:size];
         }];
         [alertController addAction:createAction];
@@ -427,7 +427,7 @@
         return;
     }
     
-    UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
     activityIndicatorView.color = [UIColor blackColor];
     if ([UIAlertController class]) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Creating Disk Image", nil) message:@"\n\n\n" preferredStyle:UIAlertControllerStyleAlert];

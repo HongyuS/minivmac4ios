@@ -7782,8 +7782,8 @@ LOCALIPROC DoBitField(void)
 {
 	ui5b tmp;
 	ui5b newtmp;
-	CPTR dsta;
-	ui5b bf0;
+    CPTR dsta = 0;
+    ui5b bf0 = 0;
 	ui3b bf1;
 	ui5b dstreg = V_regs.CurDecOpY.v[1].ArgDat;
 	ui4b extra = nextiword();
@@ -7794,7 +7794,7 @@ LOCALIPROC DoBitField(void)
 		? m68k_dreg(extra & 7)
 		: extra;
 	ui3b bfa[5];
-	ui5b offwid;
+    ui5b offwid = 0;
 
 	/* ReportAbnormal("Bit Field operator"); */
 	/* width = ((width - 1) & 0x1f) + 1; */ /* 0 -> 32 */

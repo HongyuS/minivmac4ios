@@ -1801,15 +1801,15 @@ static dispatch_once_t onceToken;
     if ([UIAlertController class]) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Export File", nil) message:NSLocalizedString(@"Enter new name", nil) preferredStyle:UIAlertControllerStyleAlert];
         [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            nameTextField = textField;
-            nameTextField.placeholder = name;
-            nameTextField.text = name;
+            self->nameTextField = textField;
+            self->nameTextField.placeholder = name;
+            self->nameTextField.text = name;
         }];
         [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             [self didMakeNewDisk:nil size:0];
         }]];
         [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Save", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self didMakeNewDisk:nameTextField.text size:size];
+            [self didMakeNewDisk:self->nameTextField.text size:size];
         }]];
         [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
     } else {
