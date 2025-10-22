@@ -662,7 +662,9 @@
             NSInteger fileSize = [attributes[NSURLTotalFileSizeKey] integerValue];
             NSInteger numBlocks = fileSize / 512;
             defaultIcon = [UIImage imageNamed:numBlocks == 800 || numBlocks == 1600 ? @"floppy" : @"floppyV"];
-            self.imageView.image = [UIImage imageWithIconForDiskImage:filePath] ?: defaultIcon;
+            UIImageView *imageView = self.imageView;
+            imageView.image = [UIImage imageWithIconForDiskImage:filePath] ?: defaultIcon;
+            [imageView.layer setMagnificationFilter:kCAFilterNearest];
         } else {
             defaultIcon = [UIImage imageNamed:@"document"];
             self.imageView.image = defaultIcon;
